@@ -1,28 +1,16 @@
-const mongoose = require("mongoose");
+const express = require('express');
+require('./config')
+const User = require('./user')
+const app = express();
+app.use(express.json())
 
-// connect once at the top
-mongoose.connect("mongodb://localhost:27017/test");
-
-const userSchema = new mongoose.Schema({
-    name: String,
-    pass: Number
-});
-
-// explicitly use the existing 'user' collection
-const userModel = mongoose.model("user", userSchema, "user");
-
-const main = async () => {
-    let data = new userModel({ name: "John Doe", pass: 12345 });
+app.post("/create",async (req,resp)=>{
+    console.log(req.body);
+    resp.send("done");
+    let data = new User(req.body)
     let result = await data.save();
-    console.log(result);
-};
-
-const updateData = async () => {
-    let data = await userModel.updateOne(
-        { name: "John Doe" },
-        { $set: { pass: 670 } }
-    );
     console.log(data);
-};
+    
 
-updateData();
+})
+app.listen(5000);
