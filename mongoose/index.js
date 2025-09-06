@@ -13,4 +13,26 @@ app.post("/create",async (req,resp)=>{
     
 
 })
+
+app.get("/list",async(req,resp)=>{
+    let data = await User.find();
+    resp.send(data);
+})
+
+app.delete("/delete/:_id",async(req,resp)=>{
+    let data = await User.deleteOne(req.params);
+    resp.send(done);
+})
+
+app.put("/update/:_id",async(req,resp)=>{
+    let data = await User.updateOne(req.params,
+        {
+            $set : req.body
+        }
+
+    )
+    resp.send(data);
+})
+
+
 app.listen(5000);
